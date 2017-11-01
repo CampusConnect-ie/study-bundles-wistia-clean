@@ -93,7 +93,7 @@ function deleteProjects (wistiaClient, projects, cb) {
       if (err) return cb(explain(err, `Failed to delete project ${p.hashedId}`))
       cb()
     })
-  })
+  }, cb)
 }
 
 module.exports.deleteProjects = deleteProjects
@@ -105,7 +105,7 @@ function deleteMedia (wistiaClient, media, cb) {
       if (err) return cb(explain(err, `Failed to delete media ${m.hashed_id}`))
       cb()
     })
-  })
+  }, cb)
 }
 
 module.exports.deleteMedia = deleteMedia
