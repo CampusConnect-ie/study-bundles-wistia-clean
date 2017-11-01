@@ -63,6 +63,7 @@ Async.auto({
     if (!res.confirmed) return cb()
     WistiaData.deleteMedia(res.ctx.wistia, res.orphanedMedia, cb)
   }]
-}, (err) => {
+}, (err, res) => {
   if (err) throw err
+  res.ctx.db.close()
 })
