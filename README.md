@@ -23,3 +23,7 @@ Specify the path to the Meteor `settings.json` file (so we can get the Wistia ap
 ### `--mongo-uri`
 
 URI to the StudyBundles database. Default: `mongodb://localhost/studybundles`
+
+## Debug
+
+This project uses [debug](https://www.npmjs.com/package/debug) so you can have debug messages logged to the console by setting the `DEBUG` environment variable to `*` or `wistia-clean*`.
