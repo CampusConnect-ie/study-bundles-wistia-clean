@@ -12,7 +12,7 @@ function printSummary (orphanedProjects, orphanedMedia) {
   if (orphanedMedia.length) {
     if (out.length) out.push('')
     out.push('Wistia MEDIA NOT attached to ACTIVE bundles to be REMOVED:')
-    orphanedMedia.forEach((m) => out.push(`    ${m.id} ${m.name}`))
+    orphanedMedia.forEach((m) => out.push(`    ${m.id} ${m.name} (from project ${m.project.id} ${m.project.name})`))
   }
 
   console.log(out.join('\n'))
