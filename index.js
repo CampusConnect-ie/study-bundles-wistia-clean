@@ -7,6 +7,8 @@ const Orphans = require('./orphans')
 const confirm = require('./confirm')
 const printSummary = require('./summary')
 
+console.log('Please wait...')
+
 Async.auto({
   ctx: (cb) => getContext(parseArgs(process.argv.slice(2)), cb),
 

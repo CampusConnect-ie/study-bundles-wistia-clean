@@ -1,5 +1,6 @@
 const Async = require('async')
 const debug = require('debug')('wistia-clean:wistia-data')
+const explain = require('explain-error')
 
 const CONCURRENCY = 5
 const PER_PAGE = 100
@@ -14,7 +15,7 @@ function fetchProjects (wistiaClient, cb) {
     debug(`Getting projects page ${page}`)
 
     wistiaClient.projectList({ page, per_page: PER_PAGE }, (err, data) => {
-      if (err) return cb(err)
+      if (err) return cb(explain(err, `Failed to get projects page ${page}`))
 
       const projects = JSON.parse(data)
       debug(`Found ${projects.length} in page ${page}`)
@@ -27,7 +28,10 @@ function fetchProjects (wistiaClient, cb) {
     })
   }
 
-  Async.doWhilst(iteratee, () => hasMore, (err) => cb(err, allProjects))
+  Async.doWhilst(iteratee, () => hasMore, (err) => {
+    if (err) return cb(explain(err, 'Failed to fetch all projects'))
+    cb(null, allProjects)
+  })
 }
 
 module.exports.fetchProjects = fetchProjects
@@ -42,7 +46,7 @@ function fetchMedia (wistiaClient, projectId, cb) {
     debug(`Getting media page ${page} of project ${projectId}`)
 
     wistiaClient.mediaList(projectId, page, PER_PAGE, (err, data) => {
-      if (err) return cb(err)
+      if (err) return cb(explain(err, `Failed to get media page ${page}`))
 
       const media = JSON.parse(data)
       debug(`Found ${media.length} in page ${page} of project ${projectId}`)
@@ -55,7 +59,10 @@ function fetchMedia (wistiaClient, projectId, cb) {
     })
   }
 
-  Async.doWhilst(iteratee, () => hasMore, (err) => cb(err, allMedia))
+  Async.doWhilst(iteratee, () => hasMore, (err) => {
+    if (err) return cb(explain(err, `Failed to fetch all media for project ${projectId}`))
+    cb(null, allMedia)
+  })
 }
 
 module.exports.fetchMedia = fetchMedia
@@ -67,8 +74,9 @@ function fetchProjectsAndMedia (wistiaClient, cb) {
 
     Async.mapLimit(projects, CONCURRENCY, (project, cb) => {
       fetchMedia(wistiaClient, project.id, (err, media) => {
+        if (err) return cb(err)
         project.media = media
-        cb(err, project)
+        cb(null, project)
       })
     }, cb)
   })
@@ -79,7 +87,10 @@ module.exports.fetchProjectsAndMedia = fetchProjectsAndMedia
 function deleteProjects (wistiaClient, projects, cb) {
   Async.eachLimit(projects, CONCURRENCY, (p, cb) => {
     debug(`Deleting project ${p.id} (${p.hashedId})`)
-    wistiaClient.projectDelete(p.hashedId, cb)
+    wistiaClient.projectDelete(p.hashedId, (err) => {
+      if (err) return cb(explain(err, `Failed to delete project ${p.hashedId}`))
+      cb()
+    })
   })
 }
 
@@ -88,7 +99,10 @@ module.exports.deleteProjects = deleteProjects
 function deleteMedia (wistiaClient, media, cb) {
   Async.eachLimit(media, CONCURRENCY, (m, cb) => {
     debug(`Deleting media ${m.id} (${m.hashed_id})`)
-    wistiaClient.mediaDelete(m.hashed_id, cb)
+    wistiaClient.mediaDelete(m.hashed_id, (err) => {
+      if (err) return cb(explain(err, `Failed to delete media ${m.hashed_id}`))
+      cb()
+    })
   })
 }
 
