@@ -6,7 +6,10 @@ function printSummary (orphanedProjects, orphanedMedia) {
 
   if (orphanedProjects.length) {
     out.push('Wistia PROJECTS attached to DELETED bundles to be REMOVED:')
-    orphanedProjects.forEach((p) => out.push(`    ${p.id} ${p.name}`))
+    orphanedProjects.forEach((p) => {
+      out.push(`    ${p.id} ${p.name}`)
+      p.media.forEach((m) => out.push(`        ${m.id} ${m.name}`))
+    })
   }
 
   if (orphanedMedia.length) {
