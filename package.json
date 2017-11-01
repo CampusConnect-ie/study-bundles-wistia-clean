@@ -1,10 +1,11 @@
 {
   "name": "study-bundles-wistia-clean",
   "version": "0.0.0",
-  "description": "Clean out the wistia videos",
+  "private": true,
+  "description": "Clean out the unused Wistia videos",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "standard"
   },
   "author": "Alan Shaw",
   "license": "ISC",
@@ -15,5 +16,8 @@
     "mongojs": "^2.4.1",
     "prompt": "^1.0.0",
     "wistia-js": "0.0.8"
+  },
+  "devDependencies": {
+    "standard": "^10.0.3"
   }
 }
