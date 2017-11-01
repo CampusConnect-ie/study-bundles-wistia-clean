@@ -1,3 +1,5 @@
+'use strict'
+
 const parseArgs = require('minimist')
 const Async = require('async')
 const getContext = require('./context')

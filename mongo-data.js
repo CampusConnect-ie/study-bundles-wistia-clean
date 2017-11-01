@@ -1,3 +1,5 @@
+'use strict'
+
 const explain = require('explain-error')
 
 // Find all the bundles with wistia projects, including deleted

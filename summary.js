@@ -1,3 +1,5 @@
+'use strict'
+
 // Print a summary of what tasks will be performed
 function printSummary (orphanedProjects, orphanedMedia) {
   const out = []

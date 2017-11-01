@@ -1,3 +1,5 @@
+'use strict'
+
 const Async = require('async')
 const debug = require('debug')('wistia-clean:wistia-data')
 const explain = require('explain-error')

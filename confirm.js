@@ -1,3 +1,5 @@
+'use strict'
+
 const Prompt = require('prompt')
 const explain = require('explain-error')
 

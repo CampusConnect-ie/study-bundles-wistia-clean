@@ -1,3 +1,5 @@
+'use strict'
+
 const debug = require('debug')('wistia-clean:orphans')
 
 // Does the bundle currently contain the wistia media (video)

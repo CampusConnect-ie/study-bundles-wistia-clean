@@ -1,3 +1,5 @@
+'use strict'
+
 const Fs = require('fs')
 const mongojs = require('mongojs')
 const wistiajs = require('wistia-js')
