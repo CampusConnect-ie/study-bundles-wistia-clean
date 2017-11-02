@@ -5,9 +5,9 @@ Clean out the unused Wistia videos. Will confirm with you before anything happen
 ## Usage
 
 ```sh
-node index --settings-path=/home/studybundles/studybundles/settings.json
+node . --settings-path=/home/studybundles/studybundles/settings.json
 # or
-node index --wistia-api-password=xxxxxxxxxx
+node . --wistia-api-password=xxxxxxxxxx
 ```
 
 ## Options
